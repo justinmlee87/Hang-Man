@@ -6,8 +6,8 @@
 
 using namespace std;
 
-// Function to check if the guessed letter is in the word
-bool isLetterInWord(char letter, const string& word, vector<bool>& guessedLetters) {
+// This function verifies if the guessed letter is a part of the random word selected from the list.
+bool CheckLetter(char letter, const string& word, vector<bool>& guessedLetters) {
     bool found = false;
     for (int i = 0; i < word.length(); ++i) {
         if (word[i] == letter) {
@@ -18,8 +18,8 @@ bool isLetterInWord(char letter, const string& word, vector<bool>& guessedLetter
     return found;
 }
 
-// Function to display the current state of the word with underscores for unrevealed letters
-void displayWord(const string& word, const vector<bool>& guessedLetters) {
+// This function displays the current state of the word. It also displays the underscores for undiscovered letters.
+void ShowWord(const string& word, const vector<bool>& guessedLetters) {
     for (int i = 0; i < word.length(); ++i) {
         if (guessedLetters[i]) {
             cout << word[i] << " ";
@@ -32,13 +32,13 @@ void displayWord(const string& word, const vector<bool>& guessedLetters) {
 }
 
 int main() {
-    // Set up a list of words
-    vector<string> words = { "hangman", "programming", "computer", "language", "challenge" };
+    //List of Gospel related words
+    vector<string> words = { "families", "abinadi", "amulek", "jerusalem", "israel", "abraham", "ordinances", "baptism", "confirmation", "endowment", "repentance", "salvation", "atonement"};
 
     // Seed the random number generator
     srand(time(0));
 
-    // Select a random word from the list
+    // Selects a random word from the list
     int randomIndex = rand() % words.size();
     string secretWord = words[randomIndex];
 
@@ -53,7 +53,7 @@ int main() {
 
     while (incorrectGuesses < maxIncorrectGuesses) {
         // Display current state of the word
-        displayWord(secretWord, guessedLetters);
+        ShowWord(secretWord, guessedLetters);
 
         // Get a letter guess from the player
         cout << "Enter a letter guess: ";
@@ -61,7 +61,7 @@ int main() {
         cin >> guess;
 
         // Check if the letter is in the word
-        if (isLetterInWord(guess, secretWord, guessedLetters)) {
+        if (CheckLetter(guess, secretWord, guessedLetters)) {
             cout << "Good guess!" << endl;
         }
         else {
@@ -69,14 +69,14 @@ int main() {
             ++incorrectGuesses;
         }
 
-        // Check if the word has been fully guessed
+        // Statement to check if the word has been fully guessed
         if (guessedLetters == vector<bool>(secretWord.length(), true)) {
             cout << "Congratulations! You guessed the word: " << secretWord << endl;
             break;
         }
     }
 
-    // If the player runs out of guesses
+    // Message displays if the player runs out of guesses
     if (incorrectGuesses == maxIncorrectGuesses) {
         cout << "Sorry, you ran out of guesses. The correct word was: " << secretWord << endl;
     }
